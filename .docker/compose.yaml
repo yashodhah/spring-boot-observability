@@ -1,11 +1,4 @@
 services:
-  zipkin:
-    image: openzipkin/zipkin:latest
-    ports:
-      - '9411:9411'
-    networks:
-        - observer-net
-
   jaeger:
     image: jaegertracing/all-in-one:latest
     ports:
@@ -16,6 +9,13 @@ services:
       - LOG_LEVEL=debug
     networks:
       - observer-net
+#
+#  zipkin:
+#    image: openzipkin/zipkin:latest
+#    ports:
+#      - '9411:9411'
+#    networks:
+#      - observer-net
 
 #  grafana:
 #    image: grafana/grafana:latest
