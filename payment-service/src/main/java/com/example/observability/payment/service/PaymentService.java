@@ -1,5 +1,6 @@
 package com.example.observability.payment.service;
 
+import com.example.observability.payment.model.OrderPayment;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -7,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class PaymentService {
 
-    public void processPayment(String orderId) {
-        log.info("Processing payment: {}", orderId);
+    public void processPayment(OrderPayment orderPayment) {
+        log.info("Processing payment: {}", orderPayment.id());
     }
 }

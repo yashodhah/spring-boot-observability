@@ -1,11 +1,12 @@
 package com.example.observability.order.controller;
 
-import com.example.observability.order.dto.Order;
-import com.example.observability.order.model.OrderStatus;
+import com.example.observability.order.model.dto.Order;
 import com.example.observability.order.service.OrderService;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/v1/order")
@@ -17,21 +18,15 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @GetMapping()
-    public List<Order> findAll() {
-        return List.of(new Order(1L, 1L, List.of(), OrderStatus.PLACED.toString()));
-    }
-
     @PostMapping("/place-order")
-    public String placeOrder(@RequestBody Order order) {
+    public ResponseEntity<String> placeOrder(@RequestBody Order order) {
         orderService.placeOrder(order);
-        return "Order has been placed";
+        return ResponseEntity.ok("Order has been placed");
     }
 
     @PostMapping("/update-order-status")
-    public String updateOrderStatus(@RequestBody Order order) {
+    public ResponseEntity<String> updateOrderStatus(@RequestBody Order order) {
         orderService.updateOrderStatus(order);
-        return "Order has been updated";
+        return ResponseEntity.ok("Order has been updated");
     }
-
 }

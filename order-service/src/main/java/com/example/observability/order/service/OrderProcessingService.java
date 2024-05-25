@@ -1,26 +1,34 @@
 package com.example.observability.order.service;
 
-import com.example.observability.order.dto.Order;
+import com.example.observability.order.model.dto.Order;
+import com.example.observability.order.model.OrderDAO;
+import com.example.observability.order.model.OrderStatus;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
+@Slf4j
 public class OrderProcessingService {
 
     @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
+    OrderPaymentService orderPaymentService;
 
     public void processOrder(Order order) {
         validateOrder(order);
-        kafkaTemplate.send("order-events", String.valueOf(order.id()));
+        persistOrder(order);
+        orderPaymentService.processOrderPayments(order);
+    }
+
+
+    private void persistOrder(Order order) {
+        OrderDAO orderDAO = new OrderDAO(order.id(), order.customerId(), order.items(), OrderStatus.PLACED, LocalDateTime.now(), LocalDateTime.now());
+        log.info("Persisting order details for order : order id {}", order.id());
     }
 
     private void validateOrder(Order order) {
-        // Validate order logic
-    }
-
-    public void processPayments(String topic, String message) {
-        kafkaTemplate.send(topic, message);
+        log.info("validating order details for order {}", order.id());
     }
 }

@@ -1,6 +1,6 @@
 package com.example.observability.payment.service;
 
-import com.example.observability.payment.dto.Order;
+import com.example.observability.payment.model.Order;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.service.annotation.PostExchange;
 
