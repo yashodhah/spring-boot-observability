@@ -34,7 +34,7 @@ public class OrderEventHandler {
             paymentService.processPayment(orderPayment);
 
             // Update order status to PROCESSING
-            orderUpdateService.updateOrderStatus(new Order(orderPayment.id(), OrderStatus.PROCESSING));
+            orderUpdateService.updateOrderStatus(new Order(orderPayment.id(), OrderStatus.PAYMENT_VERIFIED));
         } catch (Exception e) {
             log.error("Failed to process order event", e);
         }

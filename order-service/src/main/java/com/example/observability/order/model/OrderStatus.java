@@ -1,5 +1,5 @@
 package com.example.observability.order.model;
 
 public enum OrderStatus {
-    PLACED, PROCESSING, SHIPPED, DELIVERED, CANCELLED
+    PLACED, PAYMENT_VERIFIED, SHIPPED, DELIVERED, CANCELLED
 }

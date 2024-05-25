@@ -5,6 +5,4 @@
 3. After validating the order, the Order Service publishes a message to the order-events Kafka topic indicating a new order.
 4. The Payment Service, listening to the order-events Kafka topic, receives the message about the new order.
 5. The Payment Service processes the payment asynchronously.
-6. After successful payment processing, the Payment Service sends an HTTP POST request to the Order Service's /update-order-status endpoint to update the order status to "Paid".
-7. Simultaneously, the Notification Service, also listening to the order-events Kafka topic, receives the message about the new order.
-8. The Notification Service sends an order confirmation email to the customer asynchronously.
+6. After successful payment processing, the Payment Service sends an HTTP POST request to the Order Service's /update-order-status endpoint to update the order status to "PAYMENT_VERIFIED".
