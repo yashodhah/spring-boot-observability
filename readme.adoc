@@ -11,8 +11,6 @@ The sample application includes two main services:
 
 The workflow of the application is as follows:
 
-image::message_flow.png[]
-
 1. A client places an order through the Order Service via an HTTP call.
 2. The Order Service processes the order and calls the Payment Service asynchronously over Kafka to handle the payment.
 3. The Payment Service listens on the `order-events` topic to process the payments.
