@@ -25,7 +25,7 @@ Before you can run the application, ensure you have the following installed:
 
 == Running the Application
 
-* Start the required external dependencies:
+Start the required external dependencies:
 This will spin up a Kafka cluster to facilitate async communication, a UI for accessing the cluster operations, and a Jaeger instance to collect the spans.
 
 [source,bash]
@@ -34,21 +34,21 @@ cd .docker
 docker compose up
 ----
 
-* Start the Order Service:
+Start the Order Service:
 [source,bash]
 ----
 ./mvnw spring-boot:run -pl order-service
 ----
 
-* Start the Payment Service:
+Start the Payment Service:
 [source,bash]
 ----
 ./mvnw spring-boot:run -pl payment-service
 
 ----
 
-* After that, navigate to the `http://localhost:8081/swagger-ui/index.html#/order-controller/placeOrder` endpoint to place a dummy order.
+After that, navigate to the `http://localhost:8081/swagger-ui/index.html#/order-controller/placeOrder` endpoint to place a dummy order.
 
-* Then, navigate to `http://localhost:16686` to access the Jaeger UI and see the full request path across the services.
+Then, navigate to `http://localhost:16686` to access the Jaeger UI and see the full request path across the services.
 
 
