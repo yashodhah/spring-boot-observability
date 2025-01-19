@@ -22,7 +22,6 @@ public class OrderProcessingService {
         orderPaymentService.processOrderPayments(order);
     }
 
-
     private void persistOrder(Order order) {
         OrderDAO orderDAO = new OrderDAO(order.id(), order.customerId(), order.items(), OrderStatus.PLACED, LocalDateTime.now(), LocalDateTime.now());
         log.info("Persisting order details for order : order id {}", order.id());

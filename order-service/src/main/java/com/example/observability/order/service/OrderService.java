@@ -20,7 +20,7 @@ public class OrderService {
         orderProcessingService.processOrder(order);
     }
 
-    public void updateOrderStatus(Order order) {
+    public void updateOrder(Order order) {
         log.info("Updating order status : order id {}", order.id());
     }
 
