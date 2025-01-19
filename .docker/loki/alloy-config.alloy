@@ -1,0 +1,13 @@
+local.file_match "applogs" {
+    path_targets = [{"__path__" = "/tmp/app-logs/order-service.log"}]
+    sync_period = "5s"
+}
+loki.write "local_loki" {
+    endpoint {
+        url = "http://loki:3100/loki/api/v1/push"
+    }
+}
+loki.source.file "local_files" {
+    targets    = local.file_match.applogs.targets
+    forward_to = [loki.write.local_loki.receiver]
+}
