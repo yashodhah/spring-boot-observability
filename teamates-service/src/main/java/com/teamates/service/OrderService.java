@@ -4,6 +4,7 @@ import com.teamates.model.CreateOrderRequest;
 import com.teamates.model.Order;
 import com.teamates.model.OrderItem;
 import com.teamates.repository.OrderRepository;
+import com.teamates.util.OrderUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,9 @@ public class OrderService {
     private  OrderRepository orderRepository;
     @Autowired
     private OrderValidationService orderValidationService;
+    // FLAW: directly coupling OrderService to NotificationService instead of using an event
+    @Autowired
+    private NotificationService notificationService;
 
     @Transactional
     public Order createOrder(CreateOrderRequest createOrderRequest) {
@@ -52,7 +56,10 @@ public class OrderService {
         orderItems.forEach(orderItem -> orderItem.setOrder(order));
 
         // Save order & publish event
-        return orderRepository.save(order);
+        Order savedOrder = orderRepository.save(order);
+        // FLAW: notification called inside @Transactional – if email fails, transaction might rollback
+        notificationService.notifyOrderCreated(savedOrder);
+        return savedOrder;
     }
 
     public Order getOrderByNumber(String orderNumber) {
@@ -61,6 +68,14 @@ public class OrderService {
     }
 
     public List<Order> getAllOrders() {
+        // FLAW: no pagination – loads all orders into memory
         return orderRepository.findAll();
+    }
+
+    // FLAW: cancel logic uses magic string status, and doesn't check if order can be cancelled
+    public Order cancelOrder(String orderNumber) {
+        Order order = getOrderByNumber(orderNumber);
+        order.setStatus(Order.OrderStatus.CANCELLED);
+        return orderRepository.save(order);  // FLAW: missing @Transactional
     }
 }
