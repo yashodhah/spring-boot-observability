@@ -32,6 +32,24 @@ management:
     health:
       enabled: true
 
+# FLAW: review feature config mixed into order-service application.yaml without separation
+review:
+  auto-approve: true        # FLAW: auto-approves all reviews – no moderation
+  max-rating: 10            # FLAW: inconsistent with ReviewService which expects 1-5
+
+# FLAW: coupon config not validated against actual Coupon entity limits
+coupon:
+  max-usage-per-customer: 1
+  default-expiry-days: 30   # FLAW: not used anywhere in code
+
+# FLAW: notification config references SMTP but no mail dependency in pom.xml
+notification:
+  email:
+    enabled: false           # FLAW: silently disables email, no logging when disabled
+    from: noreply@ceylonteamates.com
+  sms:
+    enabled: false
+
 #  tracing:
 #    sampling:
 #      probability: 1.0
